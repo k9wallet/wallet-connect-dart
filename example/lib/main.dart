@@ -245,7 +245,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  _onSessionRequest(int id, WCPeerMeta peerMeta) {
+  _onSessionRequest(int id, WCPeerMeta peerMeta, int? chainId) {
     showDialog(
       context: context,
       builder: (_) {

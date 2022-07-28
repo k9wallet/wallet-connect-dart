@@ -23,15 +23,23 @@ import 'package:wallet_connect/wc_cipher.dart';
 import 'package:wallet_connect/wc_session_store.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-typedef SessionRequest = void Function(int id, WCPeerMeta peerMeta);
+typedef SessionRequest = void Function(
+  int id,
+  WCPeerMeta peerMeta,
+  int? chainId,
+);
 typedef SocketError = void Function(dynamic message);
 typedef SocketClose = void Function(int? code, String? reason);
 typedef EthSign = void Function(int id, WCEthereumSignMessage message);
 typedef EthTransaction = void Function(
-    int id, WCEthereumTransaction transaction);
+  int id,
+  WCEthereumTransaction transaction,
+);
 typedef CustomRequest = void Function(int id, String payload);
 typedef WalletSwitchEthereumChain = void Function(
-    int id, WCWalletSwitchEthereumChain transaction);
+  int id,
+  WCWalletSwitchEthereumChain transaction,
+);
 
 class WCClient {
   late WebSocketChannel _webSocket;
@@ -313,7 +321,7 @@ class WCClient {
         _remotePeerId = param.peerId;
         _remotePeerMeta = param.peerMeta;
         _chainId = param.chainId;
-        onSessionRequest?.call(request.id, param.peerMeta);
+        onSessionRequest?.call(request.id, param.peerMeta, param.chainId);
         break;
       case WCMethod.SESSION_UPDATE:
         final param = WCSessionUpdate.fromJson(request.params!.first);
